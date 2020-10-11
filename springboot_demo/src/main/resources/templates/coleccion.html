@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Dia</th>
+				<th scope="col">Mes</th>
+				<th scope="col">Año</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="fecha: ${fechas}">
+				<td th:text="${fecha.year}" />
+				<td th:text="${fecha.month}" />
+				<td th:text="${fecha.date}" />
+				<br>
+			</tr>
+	</table>
+	<br>
+	<br>
+	<select class="custom-select" name="foo">
+		<option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}"
+			th:text="'No.' + ${i}">Num</option>
+	</select>
+	</tbody>
+</body>
+</html>
