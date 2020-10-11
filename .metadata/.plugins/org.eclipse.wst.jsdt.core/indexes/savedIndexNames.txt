@@ -1,2 +1,0 @@
-INDEX VERSION 1.4+C:\Users\marco\Documents\Workspace_des_apuntes\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-4212284992.index

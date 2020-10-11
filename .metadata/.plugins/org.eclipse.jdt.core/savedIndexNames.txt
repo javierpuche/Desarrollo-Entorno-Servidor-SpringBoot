@@ -1,4 +1,0 @@
-INDEX VERSION 1.131+C:\Users\marco\Documents\Workspace_des_apuntes\.metadata\.plugins\org.eclipse.jdt.core
-389259279.index
-1579255753.index
-4212284992.index
