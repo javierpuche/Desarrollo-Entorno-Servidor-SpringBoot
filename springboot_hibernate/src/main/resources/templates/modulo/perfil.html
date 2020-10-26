@@ -7,6 +7,32 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
+<style>
+/* label { */
+/* 	display: block; */
+/* 	padding-left: 15px; */
+/* 	text-indent: -15px; */
+/* } */
+
+ input[type=checkbox] { 
+/* 	width: 13px; */
+/* 	height: 13px; */
+ 	padding-left: 10px;
+ 	margin-left: 10px; 
+/* 	vertical-align: bottom; */
+/* 	position: relative; */
+/* 	top: -1px; */
+/* 	*overflow: hidden; */
+ } 
+ul {
+  list-style-type: none;
+}
+/* li { */
+/* display:block;} */
+li div { display: table-cell; vertical-align: middle; }
+
+</style>
+
 <body>
 	<nav th:replace="fragments/header_public"></nav>
 
@@ -32,7 +58,8 @@
 					</thead>
 					<tbody id="bodytabla">
 						<tr th:if="${modulo.profesores.empty}">
-							<td colspan="2">No existen profesores en el sistema</td>
+							<td colspan="2">No existen profesores que impartan este
+								módulo</td>
 						</tr>
 						<tr th:each="profesor : ${modulo.profesores}">
 							<td style="display: none;" id="idTd"><span id="idSpan"
@@ -44,7 +71,8 @@
 							<td><a
 								th:href="@{/profesor/perfil/{id}(id=${profesor.idProfesor})}"
 								class="btn btn-primary"><i class="fas fa-user"></i></a></td>
-							<td sec:authorize="hasAuthority('ROL_ADMIN')"><a
+							<td><a
+								th:href="@{/modulo/desmatricularProfesor/{id}/{idmodulo}(id=${profesor.idProfesor},idmodulo=${modulo.idModulo})}"
 								class="btn btn-danger borrar"><i class="fas fa-user-times"></i></a></td>
 						</tr>
 					</tbody>
@@ -53,6 +81,47 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="container my-2">
+		<div class="card">
+			<div class="card-body">
+				<form
+					th:action="@{/modulo/matricular/{idmodulo}(idmodulo=${modulo.idModulo})}"
+					method="post">
+					<ul>
+						<li th:each="profesor : ${profesores}"><label
+							th:for="${profesor.idProfesor}"
+							th:text="${profesor.nombreProfesor}"></label> <input
+								type="checkbox" class="form-check-input"
+								name="profesoresseleccionados" th:value="${profesor.idProfesor}"
+								th:id="${profesor.idProfesor}" />
+						</li>
+					</ul>
+					<div class="col-md-6">
+						<input type="submit" class="btn btn-primary"
+							value="Matricular Profesores">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- 				<form -->
+	<!-- 					th:action="@{/modulo/matricular/{idmodulo}(idmodulo=${modulo.idModulo})}" -->
+	<!-- 					method="post"> -->
+	<!-- 					<ul> -->
+	<!-- 						<li th:each="profesor : ${profesores}"><label -->
+	<!-- 							th:for="${profesor.idProfesor}" -->
+	<!-- 							th:text="${profesor.nombreProfesor}"></label> <input -->
+	<!-- 							type="checkbox" class="form-check-input" -->
+	<!-- 							name="profesoresseleccionados" th:value="${profesor.idProfesor}" -->
+	<!-- 							th:id="${profesor.idProfesor}" th:field="*{profesor}" /></li> -->
+	<!-- 					</ul> -->
+	<!-- 					<div class="col-md-6"> -->
+	<!-- 						<input type="submit" class="btn btn-primary" -->
+	<!-- 							value="Matricular Profesores"> -->
+	<!-- 					</div> -->
+	<!-- 				</form> -->
 
 </body>
 </html>

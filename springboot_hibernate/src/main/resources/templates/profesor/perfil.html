@@ -15,6 +15,10 @@
 
 
 	<style type="text/css">
+	
+	.modulo{
+	width: 250px;}
+	
 .foto {
 	position: relative;
 	/* 	margin-top: 50px; */
@@ -93,7 +97,7 @@
 				th:src="@{/imagenes/{idProfesor}(idProfesor=${profesor.idProfesor})}">
 			<div class="overlay"></div>
 			<div class="button">
-				<a href="#" th:href="@{/imagenes/index}"> Editar foto </a>
+				<a href="#" th:href="@{/imagenes/cargar/{idProfesor}(idProfesor=${profesor.idProfesor})}"> Editar foto </a>
 			</div>
 			</a>
 		</div>
@@ -101,7 +105,7 @@
 			<img class="foto-perfil" th:src="@{/images/user.png}">
 			<div class="overlay"></div>
 			<div class="button">
-				<a href="#" th:href="@{/imagenes/index}"> Editar foto </a>
+				<a href="#" th:href="@{/imagenes/cargar/{idProfesor}(idProfesor=${profesor.idProfesor})}"> Editar foto </a>
 			</div>
 			</a>
 		</div>
@@ -150,11 +154,9 @@
 						<tr th:each="email : ${profesor.emails}">
 							<td><span th:text="${email.direccionEmail}"> email </span></td>
 
-							<td>
-								<a
+							<td><a
 								th:href="@{/profesor/eliminar_email/{idProfesor}/{idEmail}(idProfesor=${profesor.idProfesor},idEmail=${email.idEmail})}"
-								class="btn btn-danger"><i class="fas fa-trash"></i></a>
-							</td>
+								class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
 						</tr>
 					</tbody>
 				</table>
@@ -197,7 +199,7 @@
 					</tr>
 					<tr th:each="modulo : ${profesor.modulos}">
 						<td><a th:href="@{/modulo/{id}(id=${modulo.idModulo})}"
-							class="btn btn-primary"><span
+							class="btn btn-primary modulo"><span
 								th:text="${modulo.nombreModulo }"> modulo </span></a></td>
 				</tbody>
 			</table>

@@ -1,5 +1,6 @@
 package des.springboot_hibernate.servicios;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -16,7 +17,7 @@ import des.springboot_hibernate.entidades.Profesor;
 
 @Transactional
 @Service
-public class ProfesorServiceImpl implements ProfesorService {
+public class ProfesorServiceImpl implements ProfesorServicio {
 
 	@Autowired
 	private ProfesorDao profesorDao;
@@ -99,6 +100,14 @@ public class ProfesorServiceImpl implements ProfesorService {
 		profesorDao.actualizar(profesor);
 
 		return null;
+	}
+
+	@Override
+	public List<Profesor> listarPorfesoresQueNoImparten(Long idModulo) {
+
+		Modulo modulo = moduloDao.buscar(idModulo);
+		List<Profesor> profesores = new ArrayList<Profesor>(modulo.getProfesores());
+		return profesorDao.listarPorfesoresQueNoImparten(profesores);
 	}
 
 }

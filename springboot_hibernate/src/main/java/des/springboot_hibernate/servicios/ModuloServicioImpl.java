@@ -1,5 +1,6 @@
 package des.springboot_hibernate.servicios;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -18,7 +19,7 @@ public class ModuloServicioImpl implements ModuloServicio {
 
 	@Autowired
 	ModuloDao moduloDao;
-	
+
 	@Autowired
 	ProfesorDao ProfesorDao;
 
@@ -39,32 +40,68 @@ public class ModuloServicioImpl implements ModuloServicio {
 
 	@Override
 	public Modulo agregarProfesor(long idModulo, long idProfesor) {
-		
+
 		Modulo m = moduloDao.buscar(idModulo);
-		
-		for (Profesor p: m.getProfesores()){
+
+		for (Profesor p : m.getProfesores()) {
 			if (p.getIdProfesor() == idProfesor) {
 				return null;
 			}
 		}
-		Profesor profesor =ProfesorDao.buscar(idProfesor);
+		Profesor profesor = ProfesorDao.buscar(idProfesor);
 		Modulo modulo = moduloDao.agregarProfesor(idModulo, profesor);
-		
+
 		return modulo;
 	}
 
 	@Override
-	public Modulo eliminarProfesor(long idModulo, long idProfesor) {
+	public Modulo desmatricularProfesor(long idModulo, long idProfesor) {
 
-		Profesor profesor =ProfesorDao.buscar(idProfesor);
+		Profesor profesor = ProfesorDao.buscar(idProfesor);
 		Modulo m = moduloDao.buscar(idModulo);
 
-		for (Profesor p: m.getProfesores()){
+		for (Profesor p : m.getProfesores()) {
 			if (p.getIdProfesor() == idProfesor) {
 				return moduloDao.eliminarProfesor(idModulo, profesor);
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Modulo crearModulo(Modulo modulo) {
+		return moduloDao.crear(modulo);
+	}
+
+	@Override
+	public Modulo agregarProfesores(long idModulo, List<Long> idProfesores) {
+		Modulo m = moduloDao.buscar(idModulo);
+
+		for (Profesor p : m.getProfesores()) {
+			if (idProfesores.contains(p.getIdProfesor())) {
+				return null;
+			}
+		}
+		for (Long idProfesor : idProfesores) {
+			Profesor profesor = ProfesorDao.buscar(idProfesor);
+			m = moduloDao.agregarProfesor(idModulo, profesor);
+		}
+
+		return m;
+	}
+
+	@Override
+	public void eliminarModulo(long idModulo) {
+
+		Modulo modulo = moduloDao.buscar(idModulo);
+		if (!modulo.getProfesores().isEmpty()) {
+			 List<Profesor>lProfesores = new ArrayList <Profesor> (modulo.getProfesores());
+		for (Profesor p : lProfesores ) {
+			ProfesorDao.desmatricularProfesor(modulo, p);
+		}}
+		modulo.setProfesores(null);
+		
+		moduloDao.borrar(modulo.getIdModulo());
 	}
 
 }

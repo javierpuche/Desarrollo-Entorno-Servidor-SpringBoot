@@ -53,8 +53,6 @@ public class ModuloDaoImpl extends DaoGenericoImpl<Modulo> implements ModuloDao 
 	@Override
 	public Modulo eliminarProfesor(long idModulo, Profesor profesor) {
 		Modulo modulo = this.buscar(idModulo);
-		modulo.deleteProfesor(profesor);
-
 		return modulo;
 	}
 

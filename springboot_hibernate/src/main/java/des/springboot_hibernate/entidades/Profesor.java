@@ -84,6 +84,25 @@ public class Profesor implements Serializable {
 	public void removeEmails(Email email) {
 		getEmails().remove(email);
 	}
+	
+	public boolean addModulo(Email email) {
+		email.setProfesor(this);
+		return getEmails().add(email);
+	}
+
+	public void removeModulo(Modulo modulo) {
+		this.modulos.remove(modulo);
+		modulo.getProfesores().remove(this);
+	}
+//		public void removeBooks() {
+//		Iterator<Book> iterator = this.books.iterator();
+//		while (iterator.hasNext()) {
+//		Book book = iterator.next();
+//		book.getAuthors().remove(this);
+//		iterator.remove();
+//		}
+//		}
+//	
 
 	public void setEmails(Set<Email> emails) {
 		this.emails = emails;
@@ -119,6 +138,74 @@ public class Profesor implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((apellidosProfesor == null) ? 0 : apellidosProfesor.hashCode());
+		result = prime * result + ((emails == null) ? 0 : emails.hashCode());
+		result = prime * result + ((idProfesor == null) ? 0 : idProfesor.hashCode());
+		result = prime * result + ((imagen == null) ? 0 : imagen.hashCode());
+		result = prime * result + ((modulos == null) ? 0 : modulos.hashCode());
+		result = prime * result + ((nombreProfesor == null) ? 0 : nombreProfesor.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Profesor other = (Profesor) obj;
+		if (apellidosProfesor == null) {
+			if (other.apellidosProfesor != null)
+				return false;
+		} else if (!apellidosProfesor.equals(other.apellidosProfesor))
+			return false;
+		if (emails == null) {
+			if (other.emails != null)
+				return false;
+		} else if (!emails.equals(other.emails))
+			return false;
+		if (idProfesor == null) {
+			if (other.idProfesor != null)
+				return false;
+		} else if (!idProfesor.equals(other.idProfesor))
+			return false;
+		if (imagen == null) {
+			if (other.imagen != null)
+				return false;
+		} else if (!imagen.equals(other.imagen))
+			return false;
+		if (modulos == null) {
+			if (other.modulos != null)
+				return false;
+		} else if (!modulos.equals(other.modulos))
+			return false;
+		if (nombreProfesor == null) {
+			if (other.nombreProfesor != null)
+				return false;
+		} else if (!nombreProfesor.equals(other.nombreProfesor))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Profesor [idProfesor=" + idProfesor + ", username=" + username + ", nombreProfesor=" + nombreProfesor
+				+ ", apellidosProfesor=" + apellidosProfesor + ", imagen=" + imagen + ", emails=" + emails
+				+ ", modulos=" + modulos + "]";
 	}
 	
 }

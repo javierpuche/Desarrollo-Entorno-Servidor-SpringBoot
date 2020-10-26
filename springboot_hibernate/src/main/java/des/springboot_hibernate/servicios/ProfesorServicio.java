@@ -6,7 +6,7 @@ import des.springboot_hibernate.entidades.Email;
 import des.springboot_hibernate.entidades.Modulo;
 import des.springboot_hibernate.entidades.Profesor;
 
-public interface ProfesorService {
+public interface ProfesorServicio {
 
 public Profesor crearPorfesor(Profesor porfesor);
 	
@@ -31,5 +31,7 @@ public Profesor crearPorfesor(Profesor porfesor);
 	public Profesor findByUsername(String username);
 	
 	public Profesor modificarProfesor(Profesor profesor);
+	
+	public List<Profesor> listarPorfesoresQueNoImparten(Long idModulo);
 	
 }

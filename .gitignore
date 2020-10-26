@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .metadata
+maven.1602457955178
 
 ### STS ###
 .apt_generated

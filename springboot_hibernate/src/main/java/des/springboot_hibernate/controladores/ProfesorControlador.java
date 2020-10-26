@@ -13,21 +13,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import des.springboot_hibernate.entidades.Email;
 import des.springboot_hibernate.entidades.Modulo;
 import des.springboot_hibernate.entidades.Profesor;
 import des.springboot_hibernate.servicios.ModuloServicio;
-import des.springboot_hibernate.servicios.ProfesorService;
+import des.springboot_hibernate.servicios.ProfesorServicio;
 
 @Controller
 @RequestMapping(value = "/profesor")
 public class ProfesorControlador {
 
 	@Autowired
-	ProfesorService profesorService;
+	ProfesorServicio profesorService;
 
 	@Autowired
 	ModuloServicio moduloServicio;
@@ -59,9 +58,7 @@ public class ProfesorControlador {
 	public ModelAndView perfilProfesor(@PathVariable("id") long idProfesor, HttpServletRequest request) {
 
 		ModelAndView mav = new ModelAndView();
-
 		Profesor profesor = profesorService.obtenerProfesor(idProfesor);
-
 		Boolean propietario = false;
 
 		if (request.getSession().getAttribute("idUsuario") != null) {
@@ -75,7 +72,7 @@ public class ProfesorControlador {
 		return mav;
 	}
 
-	@GetMapping("/perfil/actualizar/{id}")
+	@GetMapping("/actualizar/{id}")
 	public ModelAndView mostrarActualizarPerfilProfesor(@PathVariable("id") long idProfesor,
 			HttpServletRequest request) {
 
@@ -88,7 +85,7 @@ public class ProfesorControlador {
 		return mav;
 	}
 
-	@PostMapping("/perfil/actualizar/{id}")
+	@PostMapping("/actualizar/{id}")
 	public String actualizarPerfilProfesor(@PathVariable("id") long idProfesor, Profesor profesorFormulario,
 			BindingResult bindingResult, HttpServletRequest request) {
 
@@ -136,13 +133,12 @@ public class ProfesorControlador {
 
 		return "redirect:/profesor/perfil/" + idProfesor;
 	}
-	
-	
+
 	@GetMapping("/crear")
 	public String showForm() {
 		return "profesor/crear";
 	}
-	
+
 	@PostMapping("/crear")
 	public String crearUsuario(HttpServletRequest request) {
 
@@ -150,21 +146,19 @@ public class ProfesorControlador {
 		String apellidos = request.getParameter("apellidos");
 		String username = request.getParameter("nombreUsuario");
 		String direccionemail = request.getParameter("email");
-		
+
 		Profesor p = new Profesor();
 		p.setNombreProfesor(nombre);
 		p.setApellidosProfesor(apellidos);
 		p.setUsername(username);
-		
+
 		Email email = new Email();
 		email.setDireccionEmail(direccionemail);
 		p.addEmails(email);
-		System.out.println("Profe Profe "+p.toString());
+		System.out.println("Profe Profe " + p.toString());
 		profesorService.crearPorfesor(p);
-		
 
 		return "redirect:/profesor/lista";
 	}
-	
 
 }

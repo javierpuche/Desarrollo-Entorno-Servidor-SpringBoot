@@ -1,5 +1,6 @@
 package des.springboot_hibernate.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import des.springboot_hibernate.entidades.Email;
+import des.springboot_hibernate.entidades.Modulo;
 import des.springboot_hibernate.entidades.Profesor;
 
 @Repository
@@ -62,6 +64,28 @@ public class ProfesorDaoImpl extends DaoGenericoImpl<Profesor> implements Profes
 		if (profesor != null) {
 			return profesor;
 		}
+		return null;
+	}
+
+	@Override
+	public List<Profesor> listarPorfesoresQueNoImparten(List<Profesor> lprofesores) {
+		Query query = this.em.createQuery("FROM Profesor u where u.idProfesor NOT IN :idProfesores");
+		
+		List<Long> ids= new ArrayList<Long>(); 
+		for (Profesor profesor: lprofesores) {
+			ids.add(profesor.getIdProfesor());
+		}
+		query.setParameter("idProfesores", ids);
+		List<Profesor> lProfesor = query.getResultList();
+		return lProfesor;
+	}
+
+	@Override
+	public Modulo desmatricularProfesor(Modulo modulo, Profesor profesor) {
+		
+		profesor.removeModulo(modulo);
+		this.actualizar(profesor);
+		
 		return null;
 	}
 

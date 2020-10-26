@@ -1,4 +1,3 @@
-
 insert into PROFESOR (NOMBRE, APELLIDOS,NICKNAME) values ('Marcos', 'Puente','marcos.puente');
 insert into PROFESOR (NOMBRE, APELLIDOS,NICKNAME) values ('Roger', 'Pressman','roger.pressman');
 insert into PROFESOR (NOMBRE, APELLIDOS,NICKNAME) values ('Martin', 'Fawler','martin.fawler');
