@@ -60,11 +60,8 @@ public class ModuloServicioImpl implements ModuloServicio {
 		Profesor profesor = ProfesorDao.buscar(idProfesor);
 		Modulo m = moduloDao.buscar(idModulo);
 
-		for (Profesor p : m.getProfesores()) {
-			if (p.getIdProfesor() == idProfesor) {
-				return moduloDao.eliminarProfesor(idModulo, profesor);
-			}
-		}
+		ProfesorDao.desmatricularProfesor(m, profesor);
+		
 		return null;
 	}
 
@@ -95,12 +92,13 @@ public class ModuloServicioImpl implements ModuloServicio {
 
 		Modulo modulo = moduloDao.buscar(idModulo);
 		if (!modulo.getProfesores().isEmpty()) {
-			 List<Profesor>lProfesores = new ArrayList <Profesor> (modulo.getProfesores());
-		for (Profesor p : lProfesores ) {
-			ProfesorDao.desmatricularProfesor(modulo, p);
-		}}
+			List<Profesor> lProfesores = new ArrayList<Profesor>(modulo.getProfesores());
+			for (Profesor p : lProfesores) {
+				ProfesorDao.desmatricularProfesor(modulo, p);
+			}
+		}
 		modulo.setProfesores(null);
-		
+
 		moduloDao.borrar(modulo.getIdModulo());
 	}
 
