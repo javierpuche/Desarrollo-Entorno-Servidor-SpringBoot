@@ -24,7 +24,7 @@ import des.springboot_hibernate.servicios.ProfesorServicio;
 
 @Controller
 @RequestMapping(value = "/modulo")
-public class ModuloController {
+public class ModuloControlador {
 
 	@Autowired
 	ModuloServicio moduloServicio;
@@ -46,7 +46,7 @@ public class ModuloController {
 		mav.setViewName("/modulo/perfil");
 		return mav;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "borrar/{id}")
 	public String borrarModulo(@PathVariable("id") long idModulo) {
 
@@ -54,7 +54,6 @@ public class ModuloController {
 
 		return "redirect:/modulo/lista";
 	}
-	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/lista")
 	public ModelAndView listarModulos() {
@@ -77,7 +76,7 @@ public class ModuloController {
 
 		return "redirect:/modulo/lista";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/desmatricularProfesor/{idProfesor}/{idModulo}")
 	public String desmatricularProfesor(@PathVariable("idModulo") long idModulo,
 			@PathVariable("idProfesor") long idProfesor) {
@@ -92,7 +91,7 @@ public class ModuloController {
 			@RequestParam("profesoresseleccionados") List<Long> profesores) {
 
 		ModelAndView mav = new ModelAndView();
-		moduloServicio.agregarProfesores(idModulo, profesores);
+		moduloServicio.matricularProfesores(idModulo, profesores);
 
 		return "redirect:/modulo/" + idModulo;
 	}

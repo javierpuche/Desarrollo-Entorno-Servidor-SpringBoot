@@ -44,8 +44,6 @@ public class ModuloDaoImpl extends DaoGenericoImpl<Modulo> implements ModuloDao 
 		modulo.addProfesor(profesor);
 		this.em.merge(modulo);
 		this.em.refresh(modulo);
-		this.em.flush();
-		this.em.clear();
 
 		return modulo;
 	}

@@ -76,33 +76,24 @@ public class Profesor implements Serializable {
 		this.imagen = imagen;
 	}
 
-	public boolean addEmails(Email email) {
+	public boolean anadirEmails(Email email) {
 		email.setProfesor(this);
 		return getEmails().add(email);
 	}
 
-	public void removeEmails(Email email) {
+	public void eliminarEmails(Email email) {
 		getEmails().remove(email);
 	}
 	
-	public boolean addModulo(Email email) {
+	public boolean anadirModulo(Email email) {
 		email.setProfesor(this);
 		return getEmails().add(email);
 	}
 
-	public void removeModulo(Modulo modulo) {
+	public void eliminarModulo(Modulo modulo) {
 		this.modulos.remove(modulo);
 		modulo.getProfesores().remove(this);
 	}
-//		public void removeBooks() {
-//		Iterator<Book> iterator = this.books.iterator();
-//		while (iterator.hasNext()) {
-//		Book book = iterator.next();
-//		book.getAuthors().remove(this);
-//		iterator.remove();
-//		}
-//		}
-//	
 
 	public void setEmails(Set<Email> emails) {
 		this.emails = emails;

@@ -100,12 +100,16 @@ public class ProfesorControlador {
 			return "profesor_perfil_actualizar";
 		}
 
-		Profesor profesorBD = profesorService.obtenerProfesor(idProfesor);
-		profesorBD.setUsername(profesorFormulario.getUsername());
-		profesorBD.setNombreProfesor(profesorFormulario.getNombreProfesor());
-		profesorBD.setApellidosProfesor(profesorFormulario.getApellidosProfesor());
+		// Con este metodo obtenemos al porfesor, un objeto Persistent
+		Profesor p = profesorService.obtenerProfesor(idProfesor);
 
-		profesorService.modificarProfesor(profesorBD);
+		// Modificamos el objeto pasa a un estado detached
+		p.setUsername(profesorFormulario.getUsername());
+		p.setNombreProfesor(profesorFormulario.getNombreProfesor());
+		p.setApellidosProfesor(profesorFormulario.getApellidosProfesor());
+
+		// guardamos los cambios el oibjeto vuevle a ser Persistent
+		Profesor profesormodificado = profesorService.modificarProfesor(p);
 
 		return "redirect:/profesor/perfil/" + idUsuarioSession;
 	}
@@ -154,9 +158,8 @@ public class ProfesorControlador {
 
 		Email email = new Email();
 		email.setDireccionEmail(direccionemail);
-		p.addEmails(email);
-		System.out.println("Profe Profe " + p.toString());
-		profesorService.crearPorfesor(p);
+		p.anadirEmails(email);
+		Profesor prof = profesorService.crearPorfesor(p);
 
 		return "redirect:/profesor/lista";
 	}

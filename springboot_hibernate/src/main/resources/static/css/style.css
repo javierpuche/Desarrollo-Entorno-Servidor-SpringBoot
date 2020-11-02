@@ -5,11 +5,3 @@ body{
 h1{
 	color:#000000;
 }
-.emails{
-	width:100%;
-}
-.email{
-	width:50%;
-/* 	height:280px; */
-	float:left;
-}

@@ -20,8 +20,18 @@
 	<nav th:replace="fragments/header_public"></nav>
 
 
-	<a th:href="@{/profesor/lista}" > Lista Profesores</a>
-
+<div class="jumbotron">
+  <h1 class="display-4">Bievenido</h1>
+  <p class="lead">Esta es una aplicación para probar el uso de Hibernate.</p>
+  <hr class="my-4">
+  <p>Desde estos enlaces podrás ver los porfesores y los módulos de nuestra entidad educactiva. Dentro de ella podrás ver más funcionalidades en su interio</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" th:href="@{/profesor/lista}" role="button">Listar Profesores</a>
+    
+    <a class="btn btn-primary btn-lg" th:href="@{/modulos/lista}" role="button">LIstar Módulos</a>
+    
+  </p>
+</div>
 
 </body>
 </html>

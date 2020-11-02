@@ -13,5 +13,4 @@ public interface DaoGenerico<T> {
 	T buscar(Object id);
 
 	T actualizar(T t);
-
 }

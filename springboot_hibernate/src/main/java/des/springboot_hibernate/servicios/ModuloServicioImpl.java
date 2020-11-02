@@ -21,7 +21,7 @@ public class ModuloServicioImpl implements ModuloServicio {
 	ModuloDao moduloDao;
 
 	@Autowired
-	ProfesorDao ProfesorDao;
+	ProfesorDao profesorDao;
 
 	@Override
 	public List<Modulo> listarModulos() {
@@ -39,7 +39,7 @@ public class ModuloServicioImpl implements ModuloServicio {
 	}
 
 	@Override
-	public Modulo agregarProfesor(long idModulo, long idProfesor) {
+	public Modulo matricularProfesor(long idModulo, long idProfesor) {
 
 		Modulo m = moduloDao.buscar(idModulo);
 
@@ -48,7 +48,7 @@ public class ModuloServicioImpl implements ModuloServicio {
 				return null;
 			}
 		}
-		Profesor profesor = ProfesorDao.buscar(idProfesor);
+		Profesor profesor = profesorDao.buscar(idProfesor);
 		Modulo modulo = moduloDao.agregarProfesor(idModulo, profesor);
 
 		return modulo;
@@ -57,11 +57,11 @@ public class ModuloServicioImpl implements ModuloServicio {
 	@Override
 	public Modulo desmatricularProfesor(long idModulo, long idProfesor) {
 
-		Profesor profesor = ProfesorDao.buscar(idProfesor);
+		Profesor profesor = profesorDao.buscar(idProfesor);
 		Modulo m = moduloDao.buscar(idModulo);
 
-		ProfesorDao.desmatricularProfesor(m, profesor);
-		
+		profesorDao.desmatricularProfesor(m, profesor);
+
 		return null;
 	}
 
@@ -71,7 +71,7 @@ public class ModuloServicioImpl implements ModuloServicio {
 	}
 
 	@Override
-	public Modulo agregarProfesores(long idModulo, List<Long> idProfesores) {
+	public Modulo matricularProfesores(long idModulo, List<Long> idProfesores) {
 		Modulo m = moduloDao.buscar(idModulo);
 
 		for (Profesor p : m.getProfesores()) {
@@ -80,7 +80,7 @@ public class ModuloServicioImpl implements ModuloServicio {
 			}
 		}
 		for (Long idProfesor : idProfesores) {
-			Profesor profesor = ProfesorDao.buscar(idProfesor);
+			Profesor profesor = profesorDao.buscar(idProfesor);
 			m = moduloDao.agregarProfesor(idModulo, profesor);
 		}
 
@@ -94,7 +94,7 @@ public class ModuloServicioImpl implements ModuloServicio {
 		if (!modulo.getProfesores().isEmpty()) {
 			List<Profesor> lProfesores = new ArrayList<Profesor>(modulo.getProfesores());
 			for (Profesor p : lProfesores) {
-				ProfesorDao.desmatricularProfesor(modulo, p);
+				profesorDao.desmatricularProfesor(modulo, p);
 			}
 		}
 		modulo.setProfesores(null);

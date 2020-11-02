@@ -16,13 +16,6 @@ import des.springboot_hibernate.entidades.Profesor;
 @Component("ProfesorDao")
 public class ProfesorDaoImpl extends DaoGenericoImpl<Profesor> implements ProfesorDao {
 
-	public Profesor create(Profesor profesor) {
-
-		this.em.persist(profesor);
-
-		return profesor;
-	}
-
 	@Override
 	public Profesor buscarPorEmail(String email) {
 		Query query = this.em.createQuery("select u FROM Profesor u where u.email= :email");
@@ -36,7 +29,7 @@ public class ProfesorDaoImpl extends DaoGenericoImpl<Profesor> implements Profes
 	}
 
 	@Override
-	public List<Profesor> listarPorfesores() {
+	public List<Profesor> listarProfesores() {
 		Query query = this.em.createQuery("FROM Profesor");
 		List<Profesor> lProfesor = query.getResultList();
 
@@ -50,13 +43,13 @@ public class ProfesorDaoImpl extends DaoGenericoImpl<Profesor> implements Profes
 	public Profesor anadirEmail(long idProfesor, Email email) {
 
 		Profesor profesor = this.buscar(idProfesor);
-		profesor.addEmails(email);
+		profesor.anadirEmails(email);
 
 		return profesor;
 	}
 
 	@Override
-	public Profesor findByUsername(String username) {
+	public Profesor buscarPorNombre(String username) {
 		Query query = this.em.createQuery("FROM Profesor u where u.username= :username");
 		query.setParameter("username", username);
 		Profesor profesor = (Profesor) query.getSingleResult();
@@ -83,7 +76,7 @@ public class ProfesorDaoImpl extends DaoGenericoImpl<Profesor> implements Profes
 	@Override
 	public Modulo desmatricularProfesor(Modulo modulo, Profesor profesor) {
 		
-		profesor.removeModulo(modulo);
+		profesor.eliminarModulo(modulo);
 		this.actualizar(profesor);
 		
 		return null;

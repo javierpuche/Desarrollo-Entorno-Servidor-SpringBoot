@@ -68,7 +68,6 @@ public class Modulo  implements Serializable {
 	
 	public void deleteProfesor(Profesor profesor) {
 		this.profesores.remove(profesor) ;
-//		profesor.getEmails().remove(this);
 	}
 
 	public static long getSerialversionuid() {

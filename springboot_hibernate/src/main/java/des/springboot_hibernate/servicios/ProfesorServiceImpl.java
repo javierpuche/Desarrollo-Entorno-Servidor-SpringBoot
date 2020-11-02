@@ -30,31 +30,17 @@ public class ProfesorServiceImpl implements ProfesorServicio {
 
 	@Override
 	public Profesor crearPorfesor(Profesor profesor) {
-
-		return profesorDao.create(profesor);
+		return profesorDao.crear(profesor);
 	}
 
 	@Override
 	public void eliminarPorfesor(long idProfesor) {
-
 		profesorDao.borrar(idProfesor);
 	}
 
 	@Override
-	public List<Modulo> listarModulosNombre(String nombreModulo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Modulo> listarModulosProfesor(long idProfesor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Profesor> listarProfesores() {
-		return profesorDao.listarPorfesores();
+		return profesorDao.listarProfesores();
 	}
 
 	@Override
@@ -63,48 +49,26 @@ public class ProfesorServiceImpl implements ProfesorServicio {
 	}
 
 	@Override
-	public List<Modulo> listarModulos() {
-		return moduloDao.listarModulos();
-	}
-
-	@Override
 	public Profesor anadirEmail(long idProfesor, Email email) {
-
 		return profesorDao.anadirEmail(idProfesor, email);
 	}
 
 	@Override
-	public Email crearEmail(Email email) {
-
-		return emailDao.crear(email);
-	}
-
-	@Override
 	public void eliminarEmail(long idProfesor, Email email) {
-
 		Profesor p = profesorDao.buscar(idProfesor);
-		p.removeEmails(email);
+		p.eliminarEmails(email);
 		emailDao.actualizar(email);
 
 	}
 
 	@Override
-	public Profesor findByUsername(String username) {
-
-		return profesorDao.findByUsername(username);
-	}
-
-	@Override
 	public Profesor modificarProfesor(Profesor profesor) {
-
 		profesorDao.actualizar(profesor);
-
 		return null;
 	}
 
 	@Override
 	public List<Profesor> listarPorfesoresQueNoImparten(Long idModulo) {
-
 		Modulo modulo = moduloDao.buscar(idModulo);
 		List<Profesor> profesores = new ArrayList<Profesor>(modulo.getProfesores());
 		return profesorDao.listarPorfesoresQueNoImparten(profesores);
