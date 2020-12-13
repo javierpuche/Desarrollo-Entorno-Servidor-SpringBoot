@@ -1,7 +1,10 @@
-package des.springboot_hibernate.entidades;
+package des.springboot_hibernate_security.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -9,54 +12,56 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.*;
-
 
 @Entity
 @Table(name = "PROFESOR")
 public class Profesor implements Serializable {
 
-
 	private static final long serialVersionUID = -8668594760203621162L;
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_PROFESOR")
 	private Long idProfesor;
-	
+
 	@Column(name = "NICKNAME")
 	private String username;
+
+	@Column(name = "PASSWORD")
+	private String password;
 
 	@Column(name = "NOMBRE")
 	private String nombreProfesor;
 
 	@Column(name = "APELLIDOS")
 	private String apellidosProfesor;
-	
-	@OneToOne(mappedBy="profesor" ,fetch = FetchType.LAZY,optional= true)
-	private Imagen imagen;
 
+	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "profesor", orphanRemoval = true)
+	private Set<Imagen> imagen = new HashSet<>();
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "profesor", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Email> emails = new HashSet<>();
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "PROFESOR_MODULO", joinColumns = @JoinColumn(name = "ID_PROFESOR"), inverseJoinColumns = @JoinColumn(name = "ID_MODULO"))
+	private Set<Modulo> modulos = new HashSet<>();
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinTable(name = "PROFESOR_ROL", joinColumns = @JoinColumn(name = "ID_PROFESOR"), inverseJoinColumns = @JoinColumn(name = "ID_ROL"))
+	private Set<Rol> roles = new HashSet<>();
+
+	// getters y setters
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "profesor", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Email> emails = new HashSet<>();
-
-	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(name = "PROFESOR_MODULO", 
-	joinColumns = @JoinColumn(name = "ID_PROFESOR"),
-	inverseJoinColumns = @JoinColumn(name = "ID_MODULO"))
-	private Set<Modulo> modulos = new HashSet<>();
-
-	//getters y setters
 	public Set<Modulo> getModulos() {
 		return modulos;
 	}
@@ -65,15 +70,23 @@ public class Profesor implements Serializable {
 		this.modulos = modulos;
 	}
 
+	public Set<Rol> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Rol> roles) {
+		this.roles = roles;
+	}
+
 	public Set<Email> getEmails() {
 		return emails;
 	}
 
-	public Imagen getImagen() {
+	public Set<Imagen> getImagen() {
 		return imagen;
 	}
 
-	public void setImagen(Imagen imagen) {
+	public void setImagen(Set<Imagen> imagen) {
 		this.imagen = imagen;
 	}
 
@@ -85,7 +98,8 @@ public class Profesor implements Serializable {
 	public void eliminarEmails(Email email) {
 		getEmails().remove(email);
 	}
-	//métodos para facilitar la matriculación y desmatriculación de módulos
+
+	// métodos para facilitar la matriculación y desmatriculación de módulos
 	public boolean anadirModulo(Email email) {
 		email.setProfesor(this);
 		return getEmails().add(email);
@@ -132,16 +146,47 @@ public class Profesor implements Serializable {
 		this.username = username;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void addImagen(Imagen img) {
+		this.imagen.add(img);
+		img.setProfesor(this);
+	}
+
+	public void removeImagen(Imagen img) {
+		img.setProfesor(null);
+		this.imagen.remove(img);
+	}
+
+	public void removeImagenes() {
+		Iterator<Imagen> iterator = this.imagen.iterator();
+		while (iterator.hasNext()) {
+			Imagen img = iterator.next();
+			img.setProfesor(null);
+			iterator.remove();
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Profesor [idProfesor=" + idProfesor + ", username=" + username + ", password=" + password
+				+ ", nombreProfesor=" + nombreProfesor + ", apellidosProfesor=" + apellidosProfesor + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((apellidosProfesor == null) ? 0 : apellidosProfesor.hashCode());
-		result = prime * result + ((emails == null) ? 0 : emails.hashCode());
 		result = prime * result + ((idProfesor == null) ? 0 : idProfesor.hashCode());
-		result = prime * result + ((imagen == null) ? 0 : imagen.hashCode());
-		result = prime * result + ((modulos == null) ? 0 : modulos.hashCode());
 		result = prime * result + ((nombreProfesor == null) ? 0 : nombreProfesor.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -160,30 +205,20 @@ public class Profesor implements Serializable {
 				return false;
 		} else if (!apellidosProfesor.equals(other.apellidosProfesor))
 			return false;
-		if (emails == null) {
-			if (other.emails != null)
-				return false;
-		} else if (!emails.equals(other.emails))
-			return false;
 		if (idProfesor == null) {
 			if (other.idProfesor != null)
 				return false;
 		} else if (!idProfesor.equals(other.idProfesor))
 			return false;
-		if (imagen == null) {
-			if (other.imagen != null)
-				return false;
-		} else if (!imagen.equals(other.imagen))
-			return false;
-		if (modulos == null) {
-			if (other.modulos != null)
-				return false;
-		} else if (!modulos.equals(other.modulos))
-			return false;
 		if (nombreProfesor == null) {
 			if (other.nombreProfesor != null)
 				return false;
 		} else if (!nombreProfesor.equals(other.nombreProfesor))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
 			return false;
 		if (username == null) {
 			if (other.username != null)
@@ -193,11 +228,4 @@ public class Profesor implements Serializable {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Profesor [idProfesor=" + idProfesor + ", username=" + username + ", nombreProfesor=" + nombreProfesor
-				+ ", apellidosProfesor=" + apellidosProfesor + ", imagen=" + imagen + ", emails=" + emails
-				+ ", modulos=" + modulos + "]";
-	}
-	
 }

@@ -1,4 +1,4 @@
-package des.springboot_hibernate.entidades;
+package des.springboot_hibernate_security.entidades;
 
 import java.io.Serializable;
 import java.util.HashSet;
