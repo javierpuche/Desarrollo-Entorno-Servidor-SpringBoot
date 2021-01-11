@@ -1,10 +1,8 @@
 package des.springboot_hibernate_security.entidades;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -53,7 +51,7 @@ public class Profesor implements Serializable {
 	@JoinTable(name = "PROFESOR_MODULO", joinColumns = @JoinColumn(name = "ID_PROFESOR"), inverseJoinColumns = @JoinColumn(name = "ID_MODULO"))
 	private Set<Modulo> modulos = new HashSet<>();
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "PROFESOR_ROL", joinColumns = @JoinColumn(name = "ID_PROFESOR"), inverseJoinColumns = @JoinColumn(name = "ID_ROL"))
 	private Set<Rol> roles = new HashSet<>();
 
@@ -109,7 +107,17 @@ public class Profesor implements Serializable {
 		this.modulos.remove(modulo);
 		modulo.getProfesores().remove(this);
 	}
+	
+	public boolean anadirRol(Rol rol) {
+	    rol.anadirProfesor(this);
+		return getRoles().add(rol);
+	}
 
+	public void eliminarRol(Rol rol) {
+		this.roles.remove(rol);
+		rol.getProfesores().remove(this);
+	}
+	
 	public void setEmails(Set<Email> emails) {
 		this.emails = emails;
 	}

@@ -1,4 +1,4 @@
-package des.springboot_hibernate_security.securidad;
+package des.springboot_hibernate_security.seguridad;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

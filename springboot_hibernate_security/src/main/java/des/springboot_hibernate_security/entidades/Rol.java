@@ -8,8 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -25,8 +23,7 @@ public class Rol {
 	@Column(name = "NOMBRE_ROL")
 	private String nombreRol;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "PROFESOR_ROL", joinColumns = @JoinColumn(name = "ID_ROL"), inverseJoinColumns = @JoinColumn(name = "ID_PROFESOR"))
+	@ManyToMany(mappedBy="roles",fetch = FetchType.EAGER)
 	private Set<Profesor> profesores;
 
 	public int getIdRol() {
@@ -52,4 +49,15 @@ public class Rol {
 	public void setProfesores(Set<Profesor> profesor) {
 		profesores = profesor;
 	}
+	
+	public void anadirProfesor(Profesor profesor) {
+		this.profesores.add(profesor);
+		profesor.getRoles().add(this);
+	}
+	
+	public void deleteProfesor(Profesor profesor) {
+		this.profesores.remove(profesor) ;
+	}
+
+	
 }

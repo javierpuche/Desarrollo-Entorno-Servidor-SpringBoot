@@ -1,4 +1,4 @@
-package des.springboot_hibernate_security.securidad;
+package des.springboot_hibernate_security.seguridad;
 
 import java.io.IOException;
 import java.util.logging.Logger;
