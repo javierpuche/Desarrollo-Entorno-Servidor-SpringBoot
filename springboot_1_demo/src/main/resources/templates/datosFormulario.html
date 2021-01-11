@@ -1,0 +1,13 @@
+<html lang="es" xml:lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+	<p th:text=${nombre_form}></p>
+
+	<p th:if="${hm_form == 'h'}" th:text="Hombre"></p>
+	<p th:if="${hm_form == 'm'}" th:text="Mujer"></p>
+
+	<p th:text=${nacido_f}></p>
+	<p th:text=${hm_form}></p>
+
+
+</body>
+</html>
