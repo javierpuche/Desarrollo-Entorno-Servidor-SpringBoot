@@ -101,6 +101,7 @@ public class ProfesorServiceImpl implements ProfesorServicio {
 
 	@Override
 	public List<Profesor> listarPorfesoresQueNoImparten(Long idModulo) {
+		
 		Modulo modulo = moduloRepository.findById(idModulo).orElse(null);
 		List<Profesor> profesores = new ArrayList<Profesor>(modulo.getProfesores());
 
@@ -112,7 +113,6 @@ public class ProfesorServiceImpl implements ProfesorServicio {
 
 		} else {
 			List<Long> lista_id = new ArrayList<Long>();
-
 			profesores.forEach(p -> lista_id.add(p.getIdProfesor()));
 
 			return profesorRepository.BuscarProfesoresQueNoImparten(lista_id);

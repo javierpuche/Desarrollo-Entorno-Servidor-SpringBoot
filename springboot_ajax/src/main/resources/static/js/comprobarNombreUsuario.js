@@ -11,15 +11,19 @@ function comprobarNombreUsuario() {
 		xhr.setRequestHeader(header, token);
 	});
 
+	var datos = { "username" : nombreUsuario };
+
 	$.ajax({
-		url: "/profesor/disponibleUsername/" + nombreUsuario,
-		contentType: "application/json; charset=utf-8",
-		data: { "username": nombreUsuario },
+		url: "/profesor/disponibleUsername",
+    	contentType: "application/json;charset=UTF-8",
+		dataType: "json",
+		data: JSON.stringify(datos),
 		type: "POST",
 		success: function(response) {
 
 			var alerta;
-			if (response == "false") {
+			alert(response);
+			if (response == false) {
 				alerta =
 					"<div class='form-group col-md-8 alert alert-success' role='alert'>" +
 					"Este nombre de usuario está libre para su uso" +

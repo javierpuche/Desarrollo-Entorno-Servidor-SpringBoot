@@ -44,12 +44,9 @@ public class ProfesorServicioImplTest {
 		m.setIdModulo(1L);
 		m.setNombreModulo("Porgramación");
 		
-
 		Modulo m2 = new Modulo();
 		m2.setIdModulo(1L);
 		m2.setNombreModulo("Porgramación");
-		
-		
 		
 		Profesor p1 = new Profesor();
 		p1.setIdProfesor(1L);

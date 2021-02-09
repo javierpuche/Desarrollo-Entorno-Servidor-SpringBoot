@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import des.springboot_ajax.entidades.Email;
 import des.springboot_ajax.entidades.Imagen;
@@ -175,10 +178,11 @@ public class ProfesorControlador {
 
 	
 	
-	@RequestMapping(value = "/disponibleUsername/{username}", method = RequestMethod.POST)
+	@RequestMapping(value = "/disponibleUsername", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	 public String checkUsernameAvailability(@PathVariable("username") String username) {
+	 public String checkUsernameAvailability(@RequestBody JsonNode   values) {
 
+		String username =values.findValue("username").asText();
 		if (profesorService.nombreDeUsuarioLibre(username)) {		
 			return "true";
 		}else {

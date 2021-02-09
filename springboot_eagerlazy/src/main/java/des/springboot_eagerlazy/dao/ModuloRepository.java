@@ -13,21 +13,16 @@ import des.springboot_eagerlazy.dto.ModuloDTO;
 import des.springboot_eagerlazy.entidades.Modulo;
 
 @Repository
-public interface ModuloRepository  extends PagingAndSortingRepository<Modulo, Long> {
+public interface ModuloRepository extends PagingAndSortingRepository<Modulo, Long> {
 
-
-//	@Query("FROM Modulo")
-//	List<Modulo> findAll();
-//	
 	Page<Modulo> findAll(Pageable pageable);
-	
+
 	List<Modulo> findByNombreModuloContaining(String nombreModulo);
 
 	@Query("SELECT count(*) FROM Modulo")
 	Integer countAll();
-	
+
 	@Query("SELECT new des.springboot_eagerlazy.dto.ModuloDTO(u.idModulo, u.nombreModulo) FROM Modulo u WHERE u.nombreModulo LIKE :name")
-    List<ModuloDTO> findModuloDTOByNombreModulo(@Param("name") String name);
-	
-	
+	List<ModuloDTO> findModuloDTOByNombreModulo(@Param("name") String name);
+
 }
